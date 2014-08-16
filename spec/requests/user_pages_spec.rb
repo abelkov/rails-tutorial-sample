@@ -108,6 +108,27 @@ describe "User pages" do
 			it { should have_content(m2.content) }
 			it { should have_content(user.microposts.count) }
 		end
+
+		describe "appearance of 'delete' links" do
+
+			describe "for original author" do
+				before do
+					sign_in user
+					visit user_path(user)
+				end
+
+				it { should have_link('delete') }
+			end
+
+			describe "for a random user" do
+				before do
+					sign_in FactoryGirl.create(:user)
+					visit user_path(user)
+				end
+
+				it { should_not have_link('delete') }
+			end
+		end
 	end
 
 	describe 'edit' do
